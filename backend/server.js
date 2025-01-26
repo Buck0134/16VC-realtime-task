@@ -7,7 +7,7 @@ const socketHandler = require('./socket');
 const db = require('./database/sqliteStructure');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(cors());
@@ -20,15 +20,25 @@ app.use('/api/tasks', taskRoutes);
 const server = http.createServer(app);
 
 // Socket.IO
+// Initialize Socket.IO
 const io = new Server(server, {
-  cors: {
-    origin: '*', // Update to restrict origin in production
-    methods: ['GET', 'POST'],
-  },
-});
+    cors: {
+      origin: '*', // Update with frontend URL in production
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    },
+  });
 
-// Socket.IO handler
-socketHandler(io);
+// Handle WebSocket connections
+io.on('connection', (socket) => {
+    console.log(`Client connected: ${socket.id}`);
+    
+    socket.on('disconnect', () => {
+      console.log(`Client disconnected: ${socket.id}`);
+    });
+  });
+  
+  // Socket.IO handler to pass `io` to other modules
+  socketHandler(io);
 
 // Start the server
 server.listen(PORT, () => {

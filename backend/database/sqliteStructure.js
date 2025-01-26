@@ -10,7 +10,9 @@ const TABLE_SCHEMAS = {
     { name: 'description', type: 'TEXT', constraints: 'NOT NULL' },
     { name: 'completed', type: 'INTEGER', constraints: 'DEFAULT 0' },
   ],
+  // we can add more tables here. we should consider linking this to taskModels. to make sure the objects and their name is consistent. If with type restrictions. 
 };
+
 
 // Helper function to generate the CREATE TABLE SQL for a table
 const generateCreateTableSQL = (tableName, schema) => {
@@ -53,7 +55,7 @@ const updateTableColumns = (db, tableName, schema, callback) => {
 
 // Initialize the database and handle table setup
 const initializeDatabase = () => {
-  const dbExists = fs.existsSync(DB_FILE);
+  const dbExists = fs.existsSync(DB_FILE); // // if we dont find a SQLite db. we create one. 
 
   const db = new sqlite3.Database(DB_FILE, (err) => {
     if (err) {
@@ -63,7 +65,7 @@ const initializeDatabase = () => {
     }
   });
 
-  // Iterate over all table schemas and ensure each table is created/updated
+  // Ensuring each table is created/updated
   for (const [tableName, schema] of Object.entries(TABLE_SCHEMAS)) {
     const createTableSQL = generateCreateTableSQL(tableName, schema);
     db.serialize(() => {
@@ -80,6 +82,7 @@ const initializeDatabase = () => {
         // Update table columns if necessary
         updateTableColumns(db, tableName, schema, (updateErr) => {
           if (!updateErr) {
+            //Missing columns in existing tables are added (via ALTER TABLE), and old data remains intact.
             console.log(`Table ${tableName} is up-to-date.`);
           }
         });

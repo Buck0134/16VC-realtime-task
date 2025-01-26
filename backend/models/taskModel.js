@@ -2,12 +2,12 @@ const dbUtils = require('../database/databaseUtils');
 
 class TaskModel {
   static getAllTasks(callback) {
+    // calling generic DB utils
     dbUtils.getAll('tasks', (err, rows) => {
       if (err) {
         console.error('Error fetching tasks:', err.message);
         callback(err, null);
       } else {
-        // Map rows into Task objects if needed
         callback(null, rows);
       }
     });
