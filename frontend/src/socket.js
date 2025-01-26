@@ -1,7 +1,9 @@
 import { io } from 'socket.io-client';
 
 // Connect to the WebSocket server
-const socket = io('http://localhost:5001'); // Make this ENV
+SOCKET_URL = process.env.REACT_APP_SOCKET_BASE_URL || 'http://localhost:5001'
+
+const socket = io(SOCKET_URL); // Make this ENV
 
 // Log successful connection
 socket.on('connect', () => {
