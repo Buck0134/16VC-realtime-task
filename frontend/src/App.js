@@ -1,36 +1,40 @@
-import React from 'react';
-import { Button, TextField } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import TasksPage from './pages/TasksPage';
+import { getTasks, addTask, completeTask, removeTask, setupSocketListeners } from './logic/taskLogic';
+import socket from './socket';
+
 
 const App = () => {
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    getTasks(setTasks);
+    setupSocketListeners(setTasks);
+
+    return () => {
+      socket.off('TASK_UPDATED');
+    };
+  }, []);
+
+  const handleAddTask = async (description) => {
+    await addTask(description, setTasks);
+  };
+
+  const handleCompleteTask = async (id, completed) => {
+    await completeTask(id, completed, setTasks);
+  };
+
+  const handleDeleteTask = async (id) => {
+    await removeTask(id, setTasks);
+  };
+
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-md text-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">React + Tailwind + MUI</h1>
-        <p className="text-gray-600 mb-6">This is a test to ensure everything is working.</p>
-        
-        {/* Material-UI TextField */}
-        <TextField
-          label="Enter something"
-          variant="outlined"
-          fullWidth
-          className="mb-4"
-        />
-
-        {/* Material-UI Button */}
-        <Button
-          variant="contained"
-          color="primary"
-          className="w-full"
-        >
-          MUI Button
-        </Button>
-
-        {/* Tailwind-styled Button */}
-        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-          Tailwind Button
-        </button>
-      </div>
-    </div>
+    <TasksPage
+      tasks={tasks}
+      onAddTask={handleAddTask}
+      onCompleteTask={handleCompleteTask}
+      onDeleteTask={handleDeleteTask}
+    />
   );
 };
 
