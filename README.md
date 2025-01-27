@@ -11,8 +11,11 @@ This app uses **Socket.IO** for real-time updates, **React** for the frontend, a
 You can access the live app here:  
 [Real-Time Task Collaboration App](https://16-vc-realtime-task-tau.vercel.app/)
 
+### **Demo Link**
+You can access the video demo here:  
+[VIDEO DEMO](https://cmu.zoom.us/rec/share/RN4DPDP5cBRV0RyUcdDwoPdB8R3Q0C68exZPw1z_tjrMBbL7NepClsYVzIM5tnqn.TJSCNZrIZisMtNZV?startTime=1737935994000)
+Passcode: #SN7Jjj&
 
-## **Solution and Thought Process**
 
 ## **Steps to Run and Test the Project**
 
@@ -46,13 +49,14 @@ You can access the live app here:
 
 #### **Backend**
 - Hosted on Render: Handles API requests and WebSocket connections.
-- Base URL: `https://<your-backend-url>.onrender.com`
+- Base URL: `https://one6vc-realtime-task.onrender.com`
 
 #### **Frontend**
 - Hosted on Vercel: Accessible via the deployed link:
   [Real-Time Task Collaboration App](https://16-vc-realtime-task-tau.vercel.app/)
 
----
+## **Solution and Thought Process**
+The backend communicates with the frontend using RESTful APIs to handle CRUD operations and initiates WebSocket signals to notify the frontend of real-time updates. Data is stored in an SQLite database on the backend for simplicity and persistence. On the frontend, Material-UI (MUI) and TailwindCSS are used to create a clean, responsive, and modern design. The codebase has been designed with scalability and maintainability in mind, ensuring it can adapt to future enhancements easily.
 
 ## **Technical Choices**
 
@@ -71,28 +75,6 @@ You can access the live app here:
 ### 5. **Intuitive UI with Material-UI**
 - Material-UI (MUI) was chosen for building a clean, modern, and responsive interface. The design adheres to Apple's UX design principles.
 
----
-
-## **Project Structure**
-realtime-task-app/
-├── backend/
-│   ├── controllers/          # Route handlers
-│   ├── database/             # SQLite database utilities
-│   ├── models/               # Task model
-│   ├── routes/               # API routes
-│   └── server.js             # Backend entry point
-│   └── tasks.db              # SQLite Database
-├── frontend/
-│   ├── public/               # Static files
-│   ├── src/
-│   │   ├── api/              # API calls
-│   │   ├── components/       # React components
-│   │   ├── pages/            # Page-level components
-│   │   ├── App.js            # Main app component
-│   │   └── index.js          # Frontend entry point
-└── package.json              # Root configuration for scripts
-
----
 
 ## **Technology Stack**
 
